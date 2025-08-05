@@ -50,6 +50,7 @@ const translations = {
     'contact.whatsapp': 'WhatsApp',
     'contact.ready': '¿Listo para tu próximo proyecto?',
     'contact.readyDesc': 'Desde la conceptualización hasta la post-producción, estoy aquí para hacer realidad tu visión audiovisual con la más alta calidad técnica y creativa.',
+    'modal.loading': 'Cargando contenido...',
   },
   en: {
     // Header
@@ -90,6 +91,7 @@ const translations = {
     'contact.whatsapp': 'WhatsApp',
     'contact.ready': 'Ready for your next project?',
     'contact.readyDesc': 'From conceptualization to post-production, I\'m here to bring your audiovisual vision to life with the highest technical and creative quality.',
+    'modal.loading': 'Loading content...',
   }
 };
 

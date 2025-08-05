@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, Loader2 } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, url, title }: ModalProps) => {
+  const { t } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -38,15 +40,15 @@ const Modal = ({ isOpen, onClose, url, title }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
       
       {/* Modal */}
-      <div className="relative bg-card border border-border rounded-lg shadow-elegant max-w-5xl w-full mx-4 max-h-[90vh] overflow-hidden animate-scale-in">
+      <div className="relative bg-card border border-border rounded-lg shadow-elegant max-w-5xl w-full max-h-[90vh] overflow-hidden animate-scale-in my-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h3 className="font-montserrat font-semibold text-lg text-foreground">
@@ -69,7 +71,7 @@ const Modal = ({ isOpen, onClose, url, title }: ModalProps) => {
                 <div className="w-48 h-1 bg-muted rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-primary to-purple-400 animate-pulse rounded-full"></div>
                 </div>
-                <p className="text-sm text-muted-foreground font-roboto">Cargando contenido...</p>
+                <p className="text-sm text-muted-foreground font-roboto">{t('modal.loading')}</p>
               </div>
             </div>
           )}
