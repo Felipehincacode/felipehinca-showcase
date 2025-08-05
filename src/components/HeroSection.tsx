@@ -9,7 +9,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden pt-20 z-0">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="grid grid-cols-12 h-full">
@@ -19,7 +19,7 @@ const HeroSection = () => {
         </div>
       </div>
       
-      <div className="container mx-auto px-4 text-center relative z-10">
+      <div className="container mx-auto px-4 text-center relative z-0">
         <div className="max-w-4xl mx-auto">
           <h1 className="font-montserrat font-bold text-4xl md:text-6xl lg:text-7xl mb-6 text-foreground leading-tight">
             Felipe Hincapié

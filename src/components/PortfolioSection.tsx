@@ -31,6 +31,26 @@ const portfolioItems = [
     thumbnail: "https://img.youtube.com/vi/Bo7TQVL3V2E/maxresdefault.jpg"
   },
   {
+    id: 4,
+    title: "Arte Terapia",
+    description: "Registro visual para tesis de maestría sobre el arte como terapia - Director de Fotografía y Editor",
+    url: "https://www.youtube.com/embed/KyJEDaUrEMY?si=KyJEDaUrEMY",
+    category: "audiovisual",
+    categoryName: { es: "Audiovisual", en: "Audiovisual" },
+    icon: <Play className="h-6 w-6" />,
+    thumbnail: "https://img.youtube.com/vi/KyJEDaUrEMY/maxresdefault.jpg"
+  },
+  {
+    id: 6,
+    title: "Skate por el Barrio",
+    description: "Una muestra del talento local - Director y Editor",
+    url: "https://www.youtube.com/embed/jZ7r7uZX8VA?si=jZ7r7uZX8VA",
+    category: "audiovisual",
+    categoryName: { es: "Audiovisual", en: "Audiovisual" },
+    icon: <Play className="h-6 w-6" />,
+    thumbnail: "https://img.youtube.com/vi/jZ7r7uZX8VA/maxresdefault.jpg"
+  },
+  {
     id: 2,
     title: "Imborrable",
     description: "Video musical de Chelo Ramírez - Director de Fotografía y Editor",
@@ -39,6 +59,16 @@ const portfolioItems = [
     categoryName: { es: "Audiovisual", en: "Audiovisual" },
     icon: <Play className="h-6 w-6" />,
     thumbnail: "https://img.youtube.com/vi/txmzrx6uBIE/maxresdefault.jpg"
+  },
+  {
+    id: 5,
+    title: "Rutinas, Cadenas y Maldiciones",
+    description: "Un monólogo íntimo e introspectivo con notas nadaístas - Director de Fotografía",
+    url: "https://www.youtube.com/embed/yvxb4sn0EnU?si=yvxb4sn0EnU",
+    category: "audiovisual",
+    categoryName: { es: "Audiovisual", en: "Audiovisual" },
+    icon: <Play className="h-6 w-6" />,
+    thumbnail: "https://img.youtube.com/vi/yvxb4sn0EnU/maxresdefault.jpg"
   },
   {
     id: 3,
@@ -53,7 +83,7 @@ const portfolioItems = [
   
   // Photography Projects
   {
-    id: 4,
+    id: 7,
     title: "Portafolio Fotográfico",
     description: "Colección de trabajos fotográficos en eventos sociales y retratos profesionales",
     url: "https://www.canva.com/design/DAGGqCwK48w/kqqPi10GlQUSLUO0eUyrjw/view?embed",
@@ -63,7 +93,7 @@ const portfolioItems = [
     thumbnail: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiMxYTFhMWEiLz4KICAKICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8cGF0aCBkPSJNIDIwIDAgTCAwIDAgMCAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuMyIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNncmlkKSIvPgogIAogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwMCwgMTUwKSI+CiAgICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iNDAiIGZpbGw9IiMzMzMiIG9wYWNpdHk9IjAuNSIvPgogICAgCiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTIsIC04KSI+CiAgICAgIDxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIxNiIgcng9IjIiIGZpbGw9IiM2NjYiLz4KICAgICAgPGNpcmNsZSBjeD0iMTIiIGN5PSI4IiByPSI2IiBmaWxsPSIjNjY2Ii8+CiAgICAgIDxyZWN0IHg9IjIwIiB5PSI0IiB3aWR0aD0iNCIgaGVpZ2h0PSI4IiByeD0iMSIgZmlsbD0iIzY2NiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+"
   },
   {
-    id: 5,
+    id: 8,
     title: "Fotografía de Producto",
     description: "Portafolio especializado en fotografía comercial y de producto",
     url: "https://www.canva.com/design/DAGe0KudJKM/V694gyQw_ReAi6oGaAPYXw/view?embed",
@@ -75,7 +105,7 @@ const portfolioItems = [
   
   // Web Development Projects
   {
-    id: 6,
+    id: 9,
     title: "Ikigai App",
     description: "Aplicación web interactiva para descubrir tu propósito de vida",
     url: "https://ikigai-mocha.vercel.app/",
@@ -85,7 +115,7 @@ const portfolioItems = [
     thumbnail: generateScreenshot("https://ikigai-mocha.vercel.app/")
   },
   {
-    id: 7,
+    id: 10,
     title: "Plataforma de Entrenamiento",
     description: "Sistema de gestión de entrenamientos y seguimiento de progreso",
     url: "https://entrenamiento-m2-s3.vercel.app/",
@@ -95,7 +125,7 @@ const portfolioItems = [
     thumbnail: generateScreenshot("https://entrenamiento-m2-s3.vercel.app/")
   },
   {
-    id: 8,
+    id: 11,
     title: "Cotizador de Lociones",
     description: "Herramienta para cotización automática de productos de belleza",
     url: "https://cotizacion-lociones-cbz85nlxp-felipehincacodes-projects.vercel.app/",
@@ -105,7 +135,7 @@ const portfolioItems = [
     thumbnail: generateScreenshot("https://cotizacion-lociones-cbz85nlxp-felipehincacodes-projects.vercel.app/")
   },
   {
-    id: 9,
+    id: 12,
     title: "Sistema de Cuentas de Cobro",
     description: "Generador automático de facturas y cuentas de cobro",
     url: "https://cuenta-de-cobro-v3.vercel.app/",
@@ -115,7 +145,7 @@ const portfolioItems = [
     thumbnail: generateScreenshot("https://cuenta-de-cobro-v3.vercel.app/")
   },
   {
-    id: 10,
+    id: 13,
     title: "Café La Loma",
     description: "Sitio web para cafetería con sistema de pedidos online",
     url: "https://caf-la-loma.vercel.app/",

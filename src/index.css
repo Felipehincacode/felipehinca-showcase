@@ -300,3 +300,53 @@ a:focus-visible {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #16a34a, #059669);
 }
+
+/* Modal animations and effects */
+.modal-backdrop {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.modal-content {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Floating animation for modal elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(5px) rotate(-1deg);
+  }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glow effect for modal elements */
+.glow-effect {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 40px rgba(34, 197, 94, 0.5);
+}
+
+/* Smooth transitions for modal */
+.modal-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced focus states for modal controls */
+.modal-control:focus-visible {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
