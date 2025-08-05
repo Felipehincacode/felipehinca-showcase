@@ -21,7 +21,7 @@ const translations = {
     // Hero
     'hero.title': 'Comunicador Audiovisual',
     'hero.subtitle': 'Creando contenido visual que conecta y emociona',
-    'hero.description': 'Especializado en cinematografía, edición y gradación de color con tecnologías web modernas',
+    'hero.description': 'Especializado en cinematografía, edición, gradación de color y desarrollo web moderno. Transformo ideas en experiencias visuales memorables que impactan y generan resultados',
     'hero.cta': 'Explora mi Portafolio',
     
     // Portfolio
@@ -61,7 +61,7 @@ const translations = {
     // Hero
     'hero.title': 'Audiovisual Communicator',
     'hero.subtitle': 'Creating visual content that connects and inspires',
-    'hero.description': 'Specialized in cinematography, editing and color grading with modern web technologies',
+    'hero.description': 'Specialized in cinematography, editing, color grading and modern web development. I transform ideas into memorable visual experiences that impact and deliver results',
     'hero.cta': 'Explore my Portfolio',
     
     // Portfolio

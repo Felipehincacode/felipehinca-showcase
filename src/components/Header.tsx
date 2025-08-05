@@ -30,7 +30,8 @@ const Header = () => {
               <img 
                 src={felipeProfile} 
                 alt="Felipe Hincapié Murillo" 
-                className="w-12 h-12 rounded-full object-cover ring-2 ring-primary shadow-elegant transition-transform hover:scale-105"
+                className="w-12 h-12 rounded-full object-cover object-center ring-2 ring-primary shadow-elegant transition-transform hover:scale-105"
+                style={{ objectPosition: 'center top' }}
               />
               <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-primary rounded-full border-2 border-background"></div>
             </div>

@@ -272,10 +272,9 @@ const skills = [
 
 const SkillsSlider = () => {
   const { t, language } = useLanguage();
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('video');
 
   const categories = [
-    { id: 'all', label: t('skills.filterAll') },
     { id: 'video', label: t('skills.filterVideo') },
     { id: 'photography', label: t('skills.filterPhoto') },
     { id: 'web', label: t('skills.filterWeb') },
@@ -283,34 +282,35 @@ const SkillsSlider = () => {
     { id: 'productivity', label: t('skills.filterProductivity') }
   ];
 
-  const filteredSkills = selectedCategory === 'all' 
-    ? skills 
-    : skills.filter(skill => skill.category === selectedCategory);
+  const filteredSkills = skills.filter(skill => skill.category === selectedCategory);
 
   return (
     <section className="py-20 bg-secondary/20 fade-in-up">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="font-montserrat font-bold text-4xl md:text-5xl mb-6 text-foreground">
             {t('skills.title').split(' ')[0]} <span className="text-primary">{t('skills.title').split(' ')[1]}</span>
           </h2>
-          <p className="font-roboto text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="font-roboto text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             {t('skills.description')}
           </p>
-        </div>
 
         {/* Category Filters */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {categories.map((category) => (
-            <Button
+            <button
               key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
               onClick={() => setSelectedCategory(category.id)}
-              className="transition-all duration-300"
+              className={`px-6 py-3 rounded-full font-montserrat font-medium transition-all duration-300 ${
+                selectedCategory === category.id
+                  ? 'bg-primary text-primary-foreground shadow-glow scale-105'
+                  : 'bg-muted/30 text-muted-foreground hover:bg-primary/20 hover:text-primary hover:scale-105'
+              }`}
             >
               {category.label}
-            </Button>
+            </button>
           ))}
+        </div>
         </div>
 
         {/* Skills Grid */}
