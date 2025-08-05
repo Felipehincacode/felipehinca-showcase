@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import ParticleBackground from "@/components/ParticleBackground";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 const Index = () => {
   useScrollAnimation();
@@ -18,6 +19,7 @@ const Index = () => {
         <ParticleBackground />
         <div className="relative z-10">
           <Header />
+          <ScrollIndicator />
           <HeroSection />
           <div className="fade-in-up">
             <PortfolioSection />

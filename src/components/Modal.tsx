@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Loader2 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  url: string;
   title: string;
+  url: string;
 }
 
-const Modal = ({ isOpen, onClose, url, title }: ModalProps) => {
-  const { t } = useLanguage();
+const Modal = ({ isOpen, onClose, title, url }: ModalProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (isOpen) {
@@ -19,68 +19,50 @@ const Modal = ({ isOpen, onClose, url, title }: ModalProps) => {
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
       
       {/* Modal */}
-      <div className="relative bg-card border border-border rounded-lg shadow-elegant max-w-5xl w-full max-h-[90vh] overflow-hidden animate-scale-in my-auto">
+      <div className="relative bg-background rounded-lg shadow-2xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <h3 className="font-montserrat font-semibold text-lg text-foreground">
+        <div className="flex-shrink-0 flex items-center justify-between p-3 sm:p-4 border-b border-border">
+          <h2 className="font-montserrat font-semibold text-base sm:text-lg text-foreground">
             {title}
-          </h3>
+          </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-muted rounded-full transition-colors"
+            className="p-1 hover:bg-muted rounded-md transition-colors"
           >
-            <X className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+            <X className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
           </button>
         </div>
         
         {/* Content */}
-        <div className="relative h-[70vh]">
+        <div className="flex-1 min-h-0 relative">
           {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-card z-10">
-              <div className="flex flex-col items-center space-y-4">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                <div className="w-48 h-1 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-primary to-purple-400 animate-pulse rounded-full"></div>
-                </div>
-                <p className="text-sm text-muted-foreground font-roboto">{t('modal.loading')}</p>
+            <div className="absolute inset-0 flex items-center justify-center bg-background">
+              <div className="text-center">
+                <Loader2 className="h-6 w-6 sm:h-8 sm:w-8 animate-spin text-mint-green mx-auto mb-4" />
+                <p className="font-roboto text-muted-foreground text-sm sm:text-base">
+                  {t('modal.loading')}
+                </p>
               </div>
             </div>
           )}
+          
           <iframe
             src={url}
-            className="w-full h-full border-0"
-            allowFullScreen
-            title={title}
+            className="w-full h-full rounded-b-lg"
             onLoad={() => setIsLoading(false)}
+            title={title}
+            allowFullScreen
           />
         </div>
       </div>

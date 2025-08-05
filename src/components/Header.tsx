@@ -1,118 +1,244 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, Globe } from "lucide-react";
-import { Button } from "./ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
+import { motion, AnimatePresence } from "framer-motion";
 
 const felipeProfile = "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleNavigation = (sectionId: string) => {
+    setIsMenuOpen(false);
+    
+    // Animación de scroll suave con efecto de rebote
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Ajuste para el header fijo
+      const elementPosition = element.offsetTop - offset;
+      
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+      
+      // Efecto visual de resaltado en la sección
+      element.style.transition = 'all 0.3s ease';
+      element.style.transform = 'scale(1.02)';
+      element.style.boxShadow = '0 0 30px rgba(34, 197, 94, 0.3)';
+      
+      setTimeout(() => {
+        element.style.transform = 'scale(1)';
+        element.style.boxShadow = 'none';
+      }, 300);
+    }
+  };
 
   const menuItems = [
-    { name: t('nav.portfolio'), href: "#portfolio" },
-    { name: t('nav.skills'), href: "#skills" },
-    { name: t('nav.about'), href: "#about" },
-    { name: t('nav.contact'), href: "#contact" }
+    { id: "portfolio", label: t("nav.portfolio") },
+    { id: "skills", label: t("nav.skills") },
+    { id: "about", label: t("nav.about") },
+    { id: "contact", label: t("nav.contact") },
   ];
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'es' ? 'en' : 'es');
+  const menuVariants = {
+    closed: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut" as const
+      }
+    },
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut" as const,
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const menuItemVariants = {
+    closed: {
+      opacity: 0,
+      x: -20
+    },
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut" as const
+      }
+    }
   };
 
   return (
-    <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+    <motion.header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? "bg-background/95 backdrop-blur-md border-b border-border/50 shadow-lg" 
+          : "bg-transparent"
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Logo/Profile */}
-          <div className="flex items-center space-x-4">
+          <motion.div 
+            className="flex items-center space-x-3 cursor-pointer"
+            onClick={() => handleNavigation("hero")}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <div className="relative">
-              <img 
-                src={felipeProfile} 
-                alt="Felipe Hincapié Murillo" 
-                className="w-12 h-12 rounded-full object-cover object-center ring-2 ring-primary shadow-elegant transition-transform hover:scale-105"
+              <img
+                src={felipeProfile}
+                alt="Felipe Hincapié"
+                className="w-10 h-10 rounded-full object-cover ring-2 ring-mint-green"
                 style={{ objectPosition: 'center top' }}
               />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-primary rounded-full border-2 border-background"></div>
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-mint-green rounded-full border-2 border-background"></div>
             </div>
-            <div>
-              <h1 className="font-montserrat font-bold text-lg md:text-xl text-foreground">
-                Felipe Hincapié Murillo
-              </h1>
-              <p className="font-roboto text-xs md:text-sm text-muted-foreground">
-                {t('hero.title')}
-              </p>
+            <div className="hidden sm:block">
+              <h1 className="font-montserrat font-bold text-lg text-foreground">Felipe Hincapié</h1>
+              <p className="font-roboto text-xs text-mint-green">Comunicador Audiovisual</p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {menuItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="font-roboto text-muted-foreground hover:text-primary transition-colors duration-300 story-link"
+            {menuItems.map((item, index) => (
+              <motion.button
+                key={item.id}
+                onClick={() => handleNavigation(item.id)}
+                className="font-roboto text-muted-foreground hover:text-mint-green transition-colors duration-300 relative group"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5, 
+                  ease: "easeOut",
+                  delay: 0.1 + index * 0.1 
+                }}
               >
-                {item.name}
-              </a>
+                {item.label}
+                <motion.div
+                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mint-green group-hover:w-full transition-all duration-300"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: "100%" }}
+                />
+              </motion.button>
             ))}
-            
-            {/* Language Toggle */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleLanguage}
-              className="ml-4 text-muted-foreground hover:text-primary"
-            >
-              <Globe className="h-4 w-4 mr-1" />
-              {language.toUpperCase()}
-            </Button>
           </nav>
 
-          {/* Mobile menu button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          {/* Language Toggle */}
+          <motion.button
+            onClick={() => setLanguage(language === "es" ? "en" : "es")}
+            className="hidden md:flex items-center space-x-2 text-muted-foreground hover:text-mint-green transition-colors duration-300"
+            whileHover={{ scale: 1.05, rotate: 5 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.5 }}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
+            <Globe className="h-4 w-4" />
+            <span className="font-roboto text-sm font-medium">
+              {language.toUpperCase()}
+            </span>
+          </motion.button>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 text-muted-foreground hover:text-mint-green transition-colors"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <AnimatePresence mode="wait">
+              {isMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X className="h-6 w-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu className="h-6 w-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="md:hidden mt-4 py-4 border-t border-border">
-            <div className="flex flex-col space-y-4">
-              {menuItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="font-roboto text-lg text-muted-foreground hover:text-primary transition-colors duration-300 story-link"
-                  onClick={() => setIsMenuOpen(false)}
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              className="md:hidden border-t border-border/50"
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+            >
+              <div className="py-4 space-y-2">
+                {menuItems.map((item) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => handleNavigation(item.id)}
+                    className="w-full text-left px-4 py-3 font-roboto text-muted-foreground hover:text-mint-green hover:bg-muted/50 rounded-lg transition-all duration-300"
+                    variants={menuItemVariants}
+                    whileHover={{ x: 10 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+                
+                <motion.button
+                  onClick={() => setLanguage(language === "es" ? "en" : "es")}
+                  className="w-full text-left px-4 py-3 font-roboto text-muted-foreground hover:text-mint-green hover:bg-muted/50 rounded-lg transition-all duration-300 flex items-center space-x-2"
+                  variants={menuItemVariants}
+                  whileHover={{ x: 10 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {item.name}
-                </a>
-              ))}
-              
-              {/* Mobile Language Toggle */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  toggleLanguage();
-                  setIsMenuOpen(false);
-                }}
-                className="text-muted-foreground hover:text-primary justify-start pl-0"
-              >
-                <Globe className="h-4 w-4 mr-2" />
-                {language === 'es' ? 'English' : 'Español'}
-              </Button>
-            </div>
-          </nav>
-        )}
+                  <Globe className="h-4 w-4" />
+                  <span>{language === "es" ? "English" : "Español"}</span>
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

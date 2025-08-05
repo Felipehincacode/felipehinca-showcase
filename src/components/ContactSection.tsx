@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, Instagram, Eye, Youtube, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { motion } from "framer-motion";
 
 const ContactSection = () => {
   const { t } = useLanguage();
@@ -46,14 +47,20 @@ const ContactSection = () => {
   return (
     <section id="contact" className="py-20 bg-secondary/20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
           <h2 className="font-montserrat font-bold text-4xl md:text-5xl mb-6 text-foreground">
-            {t('contact.title')}
+            {t('contact.title').split(' ')[0]} <span className="text-mint-green">{t('contact.title').split(' ')[1]}</span>
           </h2>
           <p className="font-roboto text-lg text-muted-foreground max-w-2xl mx-auto">
             {t('contact.description')}
           </p>
-        </div>
+        </motion.div>
 
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -98,10 +105,9 @@ const ContactSection = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 font-montserrat font-semibold px-8 py-6 text-lg shadow-elegant transition-all hover:shadow-glow hover:scale-105"
+                className="bg-mint-green text-background hover:bg-mint-green/90 font-montserrat font-semibold px-8 py-6 text-lg shadow-elegant transition-all hover:shadow-glow hover:scale-105"
                 onClick={() => window.location.href = 'mailto:felipehinca@gmail.com'}
               >
-                <Mail className="mr-2 h-5 w-5" />
                 {t('contact.email')}
               </Button>
               

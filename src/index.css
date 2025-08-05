@@ -40,6 +40,10 @@ All colors MUST be HSL.
     --input: 0 0% 8%;
     --ring: 0 0% 100%;
 
+    /* Mint Green Color */
+    --mint-green: 160 84% 39%;
+    --mint-green-foreground: 0 0% 100%;
+
     --radius: 0.5rem;
 
     /* Custom gradients and effects */
@@ -106,6 +110,10 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Mint Green Color for dark mode */
+    --mint-green: 160 84% 39%;
+    --mint-green-foreground: 0 0% 100%;
   }
 }
 
@@ -202,4 +210,93 @@ All colors MUST be HSL.
       opacity: 0;
     }
   }
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scroll animations */
+.section-highlight {
+  animation: sectionPulse 0.6s ease-out;
+}
+
+@keyframes sectionPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+/* Navigation link animations */
+.nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #22c55e, #10b981);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #22c55e, #10b981);
+  transform-origin: left;
+  z-index: 9999;
+}
+
+/* Enhanced focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #22c55e, #10b981);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #16a34a, #059669);
 }
