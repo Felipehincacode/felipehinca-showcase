@@ -11,7 +11,7 @@ const portfolioItems = [
     id: 1,
     title: "La Chaza",
     description: "Cortometraje seleccionado para los Premios Huella - Director de Fotografía",
-    url: "https://www.youtube.com/watch?v=Bo7TQVL3V2E",
+    url: "https://www.youtube.com/embed/Bo7TQVL3V2E?si=DE0rU6A2GYdQ9EGC",
     category: "audiovisual",
     categoryName: { es: "Audiovisual", en: "Audiovisual" },
     icon: <Play className="h-6 w-6" />
@@ -20,7 +20,7 @@ const portfolioItems = [
     id: 2,
     title: "Imborrable",
     description: "Video musical de Chelo Ramírez - Director de Fotografía y Editor",
-    url: "https://www.youtube.com/watch?v=txmzrx6uBIE",
+    url: "https://www.youtube.com/embed/txmzrx6uBIE?si=w0jfmS7m92if8QCR",
     category: "audiovisual",
     categoryName: { es: "Audiovisual", en: "Audiovisual" },
     icon: <Play className="h-6 w-6" />
@@ -29,27 +29,27 @@ const portfolioItems = [
     id: 3,
     title: "Charcos",
     description: "Cortometraje propuesta de marca ciudad para SmartFilms - Director de Fotografía",
-    url: "https://www.youtube.com/watch?v=IKqixCqaYDw",
+    url: "https://www.youtube.com/embed/IKqixCqaYDw?si=8yYcJZOYpBwPhyF6",
     category: "audiovisual",
     categoryName: { es: "Audiovisual", en: "Audiovisual" },
     icon: <Play className="h-6 w-6" />
   },
-  {
-    id: 4,
-    title: "Canal de YouTube",
-    description: "Contenido audiovisual y proyectos creativos",
-    url: "https://www.youtube.com/channel/UCnOKNo43azXJebnDzsyHzFQ",
-    category: "audiovisual",
-    categoryName: { es: "Audiovisual", en: "Audiovisual" },
-    icon: <Palette className="h-6 w-6" />
-  },
   
   // Photography Projects
   {
-    id: 5,
+    id: 4,
     title: "Portafolio Fotográfico",
     description: "Colección de trabajos fotográficos en eventos sociales y retratos profesionales",
-    url: "https://www.canva.com/design/DAGGqCwK48w/TvSg3_kg2jvJfgCIuoHhvQ/view?utm_content=DAGGqCwK48w&utm_campaign=designshare&utm_medium=link&utm_source=editor",
+    url: "https://www.canva.com/design/DAGGqCwK48w/kqqPi10GlQUSLUO0eUyrjw/view?embed",
+    category: "photography",
+    categoryName: { es: "Fotografía", en: "Photography" },
+    icon: <Camera className="h-6 w-6" />
+  },
+  {
+    id: 5,
+    title: "Fotografía de Producto",
+    description: "Portafolio especializado en fotografía comercial y de producto",
+    url: "https://www.canva.com/design/DAGe0KudJKM/V694gyQw_ReAi6oGaAPYXw/view?embed",
     category: "photography",
     categoryName: { es: "Fotografía", en: "Photography" },
     icon: <Camera className="h-6 w-6" />
