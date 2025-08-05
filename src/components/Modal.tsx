@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { X, Loader2 } from "lucide-react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,6 +9,14 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, url, title }: ModalProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsLoading(true);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -53,12 +61,24 @@ const Modal = ({ isOpen, onClose, url, title }: ModalProps) => {
         </div>
         
         {/* Content */}
-        <div className="h-[70vh]">
+        <div className="relative h-[70vh]">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-card z-10">
+              <div className="flex flex-col items-center space-y-4">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <div className="w-48 h-1 bg-muted rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-primary to-purple-400 animate-pulse rounded-full"></div>
+                </div>
+                <p className="text-sm text-muted-foreground font-roboto">Cargando contenido...</p>
+              </div>
+            </div>
+          )}
           <iframe
             src={url}
             className="w-full h-full border-0"
             allowFullScreen
             title={title}
+            onLoad={() => setIsLoading(false)}
           />
         </div>
       </div>
