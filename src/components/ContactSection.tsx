@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, Phone, Instagram, Eye, Youtube } from "lucide-react";
+import { Mail, Phone, Instagram, Eye, Youtube, MessageCircle } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const ContactSection = () => {
+  const { t } = useLanguage();
   const contactMethods = [
     {
       icon: <Mail className="h-6 w-6" />,
@@ -46,11 +48,10 @@ const ContactSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="font-montserrat font-bold text-4xl md:text-5xl mb-6 text-foreground">
-            Conectemos <span className="text-primary">Juntos</span>
+            {t('contact.title')}
           </h2>
           <p className="font-roboto text-lg text-muted-foreground max-w-2xl mx-auto">
-            ¿Tienes un proyecto en mente? Me encantaría colaborar contigo y crear 
-            algo extraordinario. ¡Hablemos!
+            {t('contact.description')}
           </p>
         </div>
 
@@ -88,11 +89,10 @@ const ContactSection = () => {
           {/* CTA Section */}
           <div className="text-center bg-gradient-card rounded-2xl p-8 border border-border">
             <h3 className="font-montserrat font-bold text-2xl md:text-3xl mb-4 text-foreground">
-              ¿Listo para tu próximo proyecto?
+              {t('contact.ready')}
             </h3>
             <p className="font-roboto text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Desde la conceptualización hasta la post-producción, estoy aquí para hacer realidad 
-              tu visión audiovisual con la más alta calidad técnica y creativa.
+              {t('contact.readyDesc')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -102,17 +102,17 @@ const ContactSection = () => {
                 onClick={() => window.location.href = 'mailto:felipehinca@gmail.com'}
               >
                 <Mail className="mr-2 h-5 w-5" />
-                Enviar Email
+                {t('contact.email')}
               </Button>
               
               <Button 
                 variant="outline"
                 size="lg"
                 className="border-orange text-orange hover:bg-orange hover:text-orange-foreground font-montserrat font-semibold px-8 py-6 text-lg transition-all hover:scale-105"
-                onClick={() => window.open('https://wa.me/573022441587', '_blank')}
+                onClick={() => window.open('https://wa.me/573022441587?text=Hola%20Felipe,%20me%20interesa%20tu%20trabajo%20audiovisual', '_blank')}
               >
-                <Phone className="mr-2 h-5 w-5" />
-                WhatsApp
+                <MessageCircle className="mr-2 h-5 w-5" />
+                {t('contact.whatsapp')}
               </Button>
             </div>
           </div>

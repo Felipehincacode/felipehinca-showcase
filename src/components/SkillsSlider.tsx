@@ -1,257 +1,366 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const skills = [
+  // Video Editing
   {
     name: "DaVinci Resolve",
-    category: "Producción Audiovisual",
-    description: "Montaje: conformado de proyectos, sincronización, keyframes, máscaras, curvas de velocidad",
-    details: "Colorización: correcciones primarias/secundarias, powerwindows, tracking, chromakeys, LUTs, interpretar RAW/Logarítmico. Data Managing: arquitectura de datos, transcodificación, proxy",
-    icon: "🎬"
+    category: "video",
+    categoryName: { es: "Edición de Video", en: "Video Editing" },
+    description: { 
+      es: "Montaje profesional y gradación de color", 
+      en: "Professional editing and color grading" 
+    },
+    details: { 
+      es: ["Conformado de proyectos", "Sincronización y keyframes", "Colorización avanzada", "Data Managing"],
+      en: ["Project conforming", "Sync and keyframes", "Advanced color grading", "Data Managing"]
+    },
+    icon: "🎬",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "Adobe Premiere Pro",
-    category: "Producción Audiovisual", 
-    description: "Montaje: conformados, sincronización, keyframes, máscaras",
-    details: "Flujo de trabajo con After Effects y Audition, Lumetri, Chromas y efectos, Exportación con Adobe Media Encoder",
-    icon: "🎞️"
-  },
-  {
-    name: "Adobe Lightroom",
-    category: "Producción Audiovisual",
-    description: "Correcciones primarias/secundarias, máscaras, altos flujos de trabajo",
-    details: "Exportación optimizada para redes o impresión, plugins de corrección de pieles y filtros con IA",
-    icon: "📷"
-  },
-  {
-    name: "Adobe Photoshop",
-    category: "Producción Audiovisual",
-    description: "Camera Raw, Matte Painting, Retoque avanzado",
-    details: "Retoque: pieles, D&B, separación de frecuencias. Fotomontajes y Diseño profesional",
-    icon: "🎨"
+    category: "video",
+    categoryName: { es: "Edición de Video", en: "Video Editing" },
+    description: { 
+      es: "Montaje y flujo de trabajo profesional", 
+      en: "Professional editing and workflow" 
+    },
+    details: { 
+      es: ["Conformados y sincronización", "Integración con After Effects", "Lumetri y efectos", "Adobe Media Encoder"],
+      en: ["Conforming and sync", "After Effects integration", "Lumetri and effects", "Adobe Media Encoder"]
+    },
+    icon: "🎞️",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "Adobe After Effects",
-    category: "Producción Audiovisual",
-    description: "Motion Graphics y efectos visuales",
-    details: "Animación avanzada, composición, efectos visuales complejos",
-    icon: "✨"
+    category: "video",
+    categoryName: { es: "Edición de Video", en: "Video Editing" },
+    description: { 
+      es: "Motion Graphics y efectos visuales", 
+      en: "Motion Graphics and VFX" 
+    },
+    details: { 
+      es: ["Animación avanzada", "Composición", "Efectos visuales", "Integración con Premiere"],
+      en: ["Advanced animation", "Compositing", "Visual effects", "Premiere integration"]
+    },
+    icon: "✨",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "Adobe Audition",
-    category: "Producción Audiovisual",
-    description: "Edición y diseño de sonido profesional",
-    details: "Masterización, efectos de audio, sincronización",
-    icon: "🎵"
+    category: "video",
+    categoryName: { es: "Edición de Video", en: "Video Editing" },
+    description: { 
+      es: "Edición y diseño de sonido", 
+      en: "Audio editing and sound design" 
+    },
+    details: { 
+      es: ["Masterización", "Efectos de audio", "Sincronización", "Limpieza de audio"],
+      en: ["Mastering", "Audio effects", "Synchronization", "Audio cleanup"]
+    },
+    icon: "🎵",
+    image: "/api/placeholder/80/80"
+  },
+
+  // Photography
+  {
+    name: "Adobe Lightroom",
+    category: "photography",
+    categoryName: { es: "Fotografía", en: "Photography" },
+    description: { 
+      es: "Edición y gestión fotográfica", 
+      en: "Photo editing and management" 
+    },
+    details: { 
+      es: ["Correcciones primarias", "Máscaras avanzadas", "Flujos de trabajo", "Plugins con IA"],
+      en: ["Primary corrections", "Advanced masks", "Workflows", "AI plugins"]
+    },
+    icon: "📷",
+    image: "/api/placeholder/80/80"
   },
   {
+    name: "Adobe Photoshop",
+    category: "photography",
+    categoryName: { es: "Fotografía", en: "Photography" },
+    description: { 
+      es: "Retoque avanzado y composición", 
+      en: "Advanced retouching and compositing" 
+    },
+    details: { 
+      es: ["Camera Raw", "Matte Painting", "Retoque de pieles", "Fotomontajes"],
+      en: ["Camera Raw", "Matte Painting", "Skin retouching", "Photo compositing"]
+    },
+    icon: "🎨",
+    image: "/api/placeholder/80/80"
+  },
+
+  // Web Development
+  {
     name: "HTML/CSS",
-    category: "Programación y Desarrollo Web",
-    description: "Frontend, responsive design, estructuras semánticas",
-    details: "Desarrollo de interfaces modernas y accesibles",
-    icon: "💻"
+    category: "web",
+    categoryName: { es: "Desarrollo Web", en: "Web Development" },
+    description: { 
+      es: "Frontend y diseño responsivo", 
+      en: "Frontend and responsive design" 
+    },
+    details: { 
+      es: ["Estructuras semánticas", "Responsive design", "CSS Grid/Flexbox", "Animaciones CSS"],
+      en: ["Semantic structures", "Responsive design", "CSS Grid/Flexbox", "CSS animations"]
+    },
+    icon: "💻",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "JavaScript",
-    category: "Programación y Desarrollo Web",
-    description: "Interactividad, frameworks modernos, aplicaciones web",
-    details: "Desarrollo frontend avanzado con librerías modernas",
-    icon: "⚡"
+    category: "web",
+    categoryName: { es: "Desarrollo Web", en: "Web Development" },
+    description: { 
+      es: "Desarrollo frontend interactivo", 
+      en: "Interactive frontend development" 
+    },
+    details: { 
+      es: ["ES6+ moderno", "Frameworks React", "APIs y fetch", "DOM manipulation"],
+      en: ["Modern ES6+", "React frameworks", "APIs and fetch", "DOM manipulation"]
+    },
+    icon: "⚡",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "Git & GitHub",
-    category: "Programación y Desarrollo Web",
-    description: "Control de versiones, colaboración en código",
-    details: "Gestión de proyectos, workflows y colaboración en equipo",
-    icon: "🔄"
+    category: "web",
+    categoryName: { es: "Desarrollo Web", en: "Web Development" },
+    description: { 
+      es: "Control de versiones", 
+      en: "Version control" 
+    },
+    details: { 
+      es: ["Gestión de repositorios", "Colaboración en equipo", "Workflows", "Branching strategies"],
+      en: ["Repository management", "Team collaboration", "Workflows", "Branching strategies"]
+    },
+    icon: "🔄",
+    image: "/api/placeholder/80/80"
   },
   {
-    name: "Vibecoding con Cursor",
-    category: "Programación y Desarrollo Web",
-    description: "Desarrollo asistido por IA",
-    details: "Programación eficiente con herramientas de IA",
-    icon: "🚀"
+    name: "Cursor IDE",
+    category: "web",
+    categoryName: { es: "Desarrollo Web", en: "Web Development" },
+    description: { 
+      es: "Desarrollo asistido por IA", 
+      en: "AI-assisted development" 
+    },
+    details: { 
+      es: ["Vibecoding", "Programación eficiente", "AI pair programming", "Code generation"],
+      en: ["Vibecoding", "Efficient programming", "AI pair programming", "Code generation"]
+    },
+    icon: "🚀",
+    image: "/api/placeholder/80/80"
   },
-  {
-    name: "Loveable & Dev 0",
-    category: "Programación y Desarrollo Web",
-    description: "Plataformas de desarrollo no-code/low-code",
-    details: "Desarrollo rápido de aplicaciones web",
-    icon: "⚙️"
-  },
-  {
-    name: "Figma",
-    category: "Software",
-    description: "Prototipado, diseño de interfaces UI/UX",
-    details: "Diseño colaborativo, sistemas de diseño",
-    icon: "🎯"
-  },
+
+  // AI Tools
   {
     name: "ChatGPT",
-    category: "Inteligencias Artificiales",
-    description: "Asistente de IA para múltiples tareas",
-    details: "Generación de contenido, análisis y automatización",
-    icon: "🤖"
-  },
-  {
-    name: "Gemini",
-    category: "Inteligencias Artificiales", 
-    description: "IA de Google para análisis y generación",
-    details: "Procesamiento de datos y contenido multimodal",
-    icon: "💎"
+    category: "ai",
+    categoryName: { es: "Inteligencia Artificial", en: "Artificial Intelligence" },
+    description: { 
+      es: "Asistente de IA multitarea", 
+      en: "Multitask AI assistant" 
+    },
+    details: { 
+      es: ["Generación de contenido", "Análisis de datos", "Automatización", "Problem solving"],
+      en: ["Content generation", "Data analysis", "Automation", "Problem solving"]
+    },
+    icon: "🤖",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "Adobe Firefly",
-    category: "Inteligencias Artificiales",
-    description: "IA generativa de Adobe para imágenes",
-    details: "Generación y edición de imágenes con IA",
-    icon: "🔥"
+    category: "ai",
+    categoryName: { es: "Inteligencia Artificial", en: "Artificial Intelligence" },
+    description: { 
+      es: "IA generativa para imágenes", 
+      en: "Generative AI for images" 
+    },
+    details: { 
+      es: ["Generación de imágenes", "Edición con IA", "Text to image", "Style transfer"],
+      en: ["Image generation", "AI editing", "Text to image", "Style transfer"]
+    },
+    icon: "🔥",
+    image: "/api/placeholder/80/80"
   },
   {
-    name: "Scrum",
-    category: "Metodologías",
-    description: "Gestión ágil de proyectos",
-    details: "Metodología para desarrollo colaborativo y eficiente",
-    icon: "📋"
+    name: "Gemini",
+    category: "ai",
+    categoryName: { es: "Inteligencia Artificial", en: "Artificial Intelligence" },
+    description: { 
+      es: "IA de Google multimodal", 
+      en: "Google's multimodal AI" 
+    },
+    details: { 
+      es: ["Análisis multimodal", "Procesamiento de datos", "Code analysis", "Research assistance"],
+      en: ["Multimodal analysis", "Data processing", "Code analysis", "Research assistance"]
+    },
+    icon: "💎",
+    image: "/api/placeholder/80/80"
+  },
+
+  // Productivity
+  {
+    name: "Figma",
+    category: "productivity",
+    categoryName: { es: "Productividad", en: "Productivity" },
+    description: { 
+      es: "Diseño UI/UX colaborativo", 
+      en: "Collaborative UI/UX design" 
+    },
+    details: { 
+      es: ["Prototipado", "Sistemas de diseño", "Colaboración en tiempo real", "Wireframing"],
+      en: ["Prototyping", "Design systems", "Real-time collaboration", "Wireframing"]
+    },
+    icon: "🎯",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "Trello",
-    category: "Software",
-    description: "Gestión de proyectos y organización",
-    details: "Planificación visual y seguimiento de tareas",
-    icon: "📊"
+    category: "productivity",
+    categoryName: { es: "Productividad", en: "Productivity" },
+    description: { 
+      es: "Gestión de proyectos Kanban", 
+      en: "Kanban project management" 
+    },
+    details: { 
+      es: ["Tableros Kanban", "Seguimiento de tareas", "Colaboración en equipo", "Automatizaciones"],
+      en: ["Kanban boards", "Task tracking", "Team collaboration", "Automations"]
+    },
+    icon: "📊",
+    image: "/api/placeholder/80/80"
+  },
+  {
+    name: "Scrum",
+    category: "productivity",
+    categoryName: { es: "Productividad", en: "Productivity" },
+    description: { 
+      es: "Metodología ágil", 
+      en: "Agile methodology" 
+    },
+    details: { 
+      es: ["Sprints", "Daily standups", "Sprint planning", "Retrospectives"],
+      en: ["Sprints", "Daily standups", "Sprint planning", "Retrospectives"]
+    },
+    icon: "📋",
+    image: "/api/placeholder/80/80"
   },
   {
     name: "Canva",
-    category: "Software",
-    description: "Diseño gráfico y presentaciones",
-    details: "Creación rápida de contenido visual",
-    icon: "🎪"
+    category: "productivity",
+    categoryName: { es: "Productividad", en: "Productivity" },
+    description: { 
+      es: "Diseño gráfico rápido", 
+      en: "Quick graphic design" 
+    },
+    details: { 
+      es: ["Templates", "Diseño colaborativo", "Brand kits", "Social media assets"],
+      en: ["Templates", "Collaborative design", "Brand kits", "Social media assets"]
+    },
+    icon: "🎪",
+    image: "/api/placeholder/80/80"
   }
 ];
 
 const SkillsSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { t, language } = useLanguage();
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  const itemsPerView = 2;
-  const maxIndex = Math.max(0, skills.length - itemsPerView);
+  const categories = [
+    { id: 'all', label: t('skills.filterAll') },
+    { id: 'video', label: t('skills.filterVideo') },
+    { id: 'photography', label: t('skills.filterPhoto') },
+    { id: 'web', label: t('skills.filterWeb') },
+    { id: 'ai', label: t('skills.filterAI') },
+    { id: 'productivity', label: t('skills.filterProductivity') }
+  ];
 
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, maxIndex]);
-
-  const nextSlide = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  };
-
-  const prevSlide = () => {
-    setIsAutoPlaying(false);
-    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  };
-
-  const visibleSkills = skills.slice(currentIndex, currentIndex + itemsPerView);
-  
-  // Fill remaining slots if at the end
-  if (visibleSkills.length < itemsPerView) {
-    const remaining = itemsPerView - visibleSkills.length;
-    visibleSkills.push(...skills.slice(0, remaining));
-  }
+  const filteredSkills = selectedCategory === 'all' 
+    ? skills 
+    : skills.filter(skill => skill.category === selectedCategory);
 
   return (
     <section className="py-20 bg-secondary/20 fade-in-up">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="font-montserrat font-bold text-4xl md:text-5xl mb-6 text-foreground">
-            Mis <span className="text-primary">Habilidades</span>
+            {t('skills.title').split(' ')[0]} <span className="text-primary">{t('skills.title').split(' ')[1]}</span>
           </h2>
           <p className="font-roboto text-lg text-muted-foreground max-w-2xl mx-auto">
-            Herramientas y tecnologías que domino para crear contenido audiovisual de alta calidad
+            {t('skills.description')}
           </p>
         </div>
 
-        <div className="relative max-w-6xl mx-auto">
-          {/* Navigation buttons */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-primary text-primary-foreground rounded-full shadow-elegant hover:shadow-glow transition-all hover:scale-110"
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </button>
-
-          <button
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-primary text-primary-foreground rounded-full shadow-elegant hover:shadow-glow transition-all hover:scale-110"
-          >
-            <ChevronRight className="h-6 w-6" />
-          </button>
-
-          {/* Skills cards */}
-          <div className="overflow-hidden mx-12">
-            <div 
-              className="flex transition-transform duration-500 ease-in-out gap-6"
-              style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
+        {/* Category Filters */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {categories.map((category) => (
+            <Button
+              key={category.id}
+              variant={selectedCategory === category.id ? "default" : "outline"}
+              onClick={() => setSelectedCategory(category.id)}
+              className="transition-all duration-300"
             >
-              {skills.map((skill, index) => (
-                <Card 
-                  key={`${skill.name}-${index}`}
-                  className="flex-shrink-0 w-[calc(50%-1rem)] bg-gradient-card border-border hover:shadow-elegant transition-all duration-300 hover:scale-105 group min-h-[320px]"
-                >
-                  <CardContent className="p-8 text-center h-full flex flex-col justify-between">
-                    <div className="text-6xl mb-6 group-hover:scale-110 transition-transform">
+              {category.label}
+            </Button>
+          ))}
+        </div>
+
+        {/* Skills Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          {filteredSkills.map((skill, index) => (
+            <Card 
+              key={`${skill.name}-${index}`}
+              className="group bg-gradient-card border-border hover:shadow-elegant transition-all duration-500 overflow-hidden cursor-pointer h-48 hover:h-64"
+            >
+              <CardContent className="p-0 h-full">
+                {/* Square view (default) */}
+                <div className="group-hover:hidden h-full flex flex-col items-center justify-center p-6">
+                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                    {skill.icon}
+                  </div>
+                  <h3 className="font-montserrat font-bold text-lg text-center text-foreground group-hover:text-primary transition-colors">
+                    {skill.name}
+                  </h3>
+                  <span className="inline-block px-3 py-1 text-xs font-medium bg-muted/30 text-foreground rounded-full mt-2">
+                    {skill.categoryName[language]}
+                  </span>
+                </div>
+
+                {/* Rectangular view (hover) */}
+                <div className="hidden group-hover:flex h-full">
+                  <div className="w-1/3 flex items-center justify-center bg-primary/10">
+                    <div className="text-4xl">
                       {skill.icon}
                     </div>
-                    
-                    <div className="flex-grow">
-                      <h3 className="font-montserrat font-bold text-xl mb-3 text-foreground group-hover:text-primary transition-colors">
-                        {skill.name}
-                      </h3>
-                      
-                      <span className="inline-block px-4 py-2 text-sm font-medium bg-muted/30 text-foreground rounded-full mb-4">
-                        {skill.category}
-                      </span>
-                      
-                      <p className="font-roboto text-sm text-muted-foreground leading-relaxed mb-3">
-                        {skill.description}
-                      </p>
-                      
-                      {skill.details && (
-                        <p className="font-roboto text-xs text-muted-foreground/80 leading-relaxed italic">
-                          {skill.details}
-                        </p>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Progress indicators */}
-          <div className="flex justify-center space-x-2 mt-8">
-            {Array.from({ length: maxIndex + 1 }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentIndex(index);
-                  setIsAutoPlaying(false);
-                }}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  index === currentIndex 
-                    ? "bg-primary shadow-glow" 
-                    : "bg-muted hover:bg-primary/50"
-                }`}
-              />
-            ))}
-          </div>
+                  </div>
+                  <div className="w-2/3 p-4 flex flex-col justify-center">
+                    <h3 className="font-montserrat font-bold text-lg mb-2 text-primary">
+                      {skill.name}
+                    </h3>
+                    <p className="font-roboto text-sm text-muted-foreground mb-3">
+                      {skill.description[language]}
+                    </p>
+                    <ul className="space-y-1">
+                      {skill.details[language].slice(0, 3).map((detail, i) => (
+                        <li key={i} className="font-roboto text-xs text-muted-foreground flex items-center">
+                          <span className="w-1 h-1 bg-primary rounded-full mr-2"></span>
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </section>

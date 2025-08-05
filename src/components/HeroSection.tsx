@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Play } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
   const scrollToPortfolio = () => {
     document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -19,16 +21,14 @@ const HeroSection = () => {
       
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-montserrat font-bold text-4xl md:text-6xl lg:text-7xl mb-6 text-foreground">
-            Comunicador{" "}
-            <span className="text-foreground">Audiovisual</span>
-          </h2>
+          <h1 className="font-montserrat font-bold text-5xl md:text-7xl lg:text-8xl mb-6 text-foreground leading-tight">
+            Felipe Hincapié
+            <br />
+            <span className="text-primary">{t('hero.title')}</span>
+          </h1>
           
-          <p className="font-roboto text-lg md:text-xl lg:text-2xl mb-8 text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Comunicador audiovisual apasionado por crear contenido innovador que conecta emocionalmente con las audiencias. 
-            Especializado en <span className="text-foreground">fotografía</span>, 
-            <span className="text-foreground"> edición de video</span> y 
-            <span className="text-foreground"> gradación de color</span>, con dominio de herramientas como DaVinci Resolve y Adobe Suite.
+          <p className="font-roboto text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl leading-relaxed">
+            {t('hero.subtitle')}. {t('hero.description')}.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -38,7 +38,7 @@ const HeroSection = () => {
               className="bg-primary text-primary-foreground hover:bg-primary/90 font-montserrat font-semibold px-8 py-6 text-lg shadow-elegant transition-all hover:shadow-glow hover:scale-105"
             >
               <Play className="mr-2 h-5 w-5" />
-              Explora mi Portafolio
+              {t('hero.cta')}
             </Button>
             
             <Button 
@@ -47,7 +47,7 @@ const HeroSection = () => {
               className="border-foreground text-foreground hover:bg-foreground hover:text-background font-montserrat font-semibold px-8 py-6 text-lg transition-all hover:scale-105"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Contacto
+              {t('nav.contact')}
             </Button>
           </div>
           

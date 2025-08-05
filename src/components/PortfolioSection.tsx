@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ExternalLink, Play, Camera, Palette } from "lucide-react";
 import Modal from "./Modal";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const portfolioItems = [
   {
@@ -48,6 +49,7 @@ const portfolioItems = [
 ];
 
 const PortfolioSection = () => {
+  const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState<typeof portfolioItems[0] | null>(null);
 
   return (
@@ -55,11 +57,10 @@ const PortfolioSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="font-montserrat font-bold text-4xl md:text-5xl mb-6 text-foreground">
-            Mi <span className="text-primary">Portafolio</span>
+            {t('portfolio.title').split(' ')[0]} <span className="text-primary">{t('portfolio.title').split(' ')[1]}</span>
           </h2>
           <p className="font-roboto text-lg text-muted-foreground max-w-2xl mx-auto">
-            Una selección de proyectos que demuestran mi pasión por la creación audiovisual 
-            y mi compromiso con la calidad técnica y narrativa.
+            {t('portfolio.description')}
           </p>
         </div>
 
@@ -96,7 +97,7 @@ const PortfolioSection = () => {
                   className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
                 >
                   <ExternalLink className="mr-2 h-4 w-4" />
-                  Ver Proyecto
+                  {t('portfolio.viewProject')}
                 </Button>
               </CardContent>
             </Card>

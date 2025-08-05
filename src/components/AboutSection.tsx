@@ -1,7 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { GraduationCap, Camera, Award, Globe } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const AboutSection = () => {
+  const { t } = useLanguage();
   return (
     <section id="about" className="py-20 bg-background">
       <div className="container mx-auto px-4">

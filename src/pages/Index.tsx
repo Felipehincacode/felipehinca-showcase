@@ -7,29 +7,34 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ParticleBackground from "@/components/ParticleBackground";
 import useScrollAnimation from "@/hooks/useScrollAnimation";
+import { LanguageProvider } from "@/hooks/useLanguage";
 
 const Index = () => {
   useScrollAnimation();
 
   return (
-    <div className="min-h-screen bg-background relative">
-      <ParticleBackground />
-      <div className="relative z-10">
-        <Header />
-        <HeroSection />
-        <div className="fade-in-up">
-          <PortfolioSection />
+    <LanguageProvider>
+      <div className="min-h-screen bg-background relative">
+        <ParticleBackground />
+        <div className="relative z-10">
+          <Header />
+          <HeroSection />
+          <div className="fade-in-up">
+            <PortfolioSection />
+          </div>
+          <div id="skills">
+            <SkillsSlider />
+          </div>
+          <div className="fade-in-left">
+            <AboutSection />
+          </div>
+          <div className="fade-in-right">
+            <ContactSection />
+          </div>
+          <Footer />
         </div>
-        <SkillsSlider />
-        <div className="fade-in-left">
-          <AboutSection />
-        </div>
-        <div className="fade-in-right">
-          <ContactSection />
-        </div>
-        <Footer />
       </div>
-    </div>
+    </LanguageProvider>
   );
 };
 
