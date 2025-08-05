@@ -1,4 +1,4 @@
-import felipeProfile from "@/assets/felipe-profile.jpg";
+const felipeProfile = "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png";
 
 const Header = () => {
   return (
@@ -18,10 +18,10 @@ const Header = () => {
               Felipe Hincapié Murillo
             </h1>
             <p className="font-roboto text-sm md:text-base text-muted-foreground">
-              Comunicación y Lenguajes Audiovisuales, Universidad de Medellín
+              Comunicación Audiovisual y Lenguajes, Universidad de Medellín
             </p>
             <p className="font-roboto text-xs text-primary">
-              Egresado no titulado
+              Estudiante no graduado, pensum finalizado
             </p>
           </div>
         </div>

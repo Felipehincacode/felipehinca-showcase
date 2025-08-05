@@ -5,63 +5,129 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const skills = [
   {
     name: "DaVinci Resolve",
-    category: "Edición & Color",
-    description: "Montaje, colorización, data managing",
+    category: "Producción Audiovisual",
+    description: "Montaje: conformado de proyectos, sincronización, keyframes, máscaras, curvas de velocidad",
+    details: "Colorización: correcciones primarias/secundarias, powerwindows, tracking, chromakeys, LUTs, interpretar RAW/Logarítmico. Data Managing: arquitectura de datos, transcodificación, proxy",
     icon: "🎬"
   },
   {
     name: "Adobe Premiere Pro",
-    category: "Edición",
-    description: "Montaje profesional, efectos, exportación",
+    category: "Producción Audiovisual", 
+    description: "Montaje: conformados, sincronización, keyframes, máscaras",
+    details: "Flujo de trabajo con After Effects y Audition, Lumetri, Chromas y efectos, Exportación con Adobe Media Encoder",
     icon: "🎞️"
   },
   {
     name: "Adobe Lightroom",
-    category: "Fotografía",
-    description: "Corrección, retoque, flujos de trabajo",
+    category: "Producción Audiovisual",
+    description: "Correcciones primarias/secundarias, máscaras, altos flujos de trabajo",
+    details: "Exportación optimizada para redes o impresión, plugins de corrección de pieles y filtros con IA",
     icon: "📷"
   },
   {
     name: "Adobe Photoshop",
-    category: "Diseño",
-    description: "Retoque, matte painting, fotomontajes",
+    category: "Producción Audiovisual",
+    description: "Camera Raw, Matte Painting, Retoque avanzado",
+    details: "Retoque: pieles, D&B, separación de frecuencias. Fotomontajes y Diseño profesional",
     icon: "🎨"
   },
   {
+    name: "Adobe After Effects",
+    category: "Producción Audiovisual",
+    description: "Motion Graphics y efectos visuales",
+    details: "Animación avanzada, composición, efectos visuales complejos",
+    icon: "✨"
+  },
+  {
+    name: "Adobe Audition",
+    category: "Producción Audiovisual",
+    description: "Edición y diseño de sonido profesional",
+    details: "Masterización, efectos de audio, sincronización",
+    icon: "🎵"
+  },
+  {
     name: "HTML/CSS",
-    category: "Desarrollo Web",
-    description: "Frontend, responsive design",
+    category: "Programación y Desarrollo Web",
+    description: "Frontend, responsive design, estructuras semánticas",
+    details: "Desarrollo de interfaces modernas y accesibles",
     icon: "💻"
   },
   {
     name: "JavaScript",
-    category: "Desarrollo Web",
-    description: "Interactividad, frameworks modernos",
+    category: "Programación y Desarrollo Web",
+    description: "Interactividad, frameworks modernos, aplicaciones web",
+    details: "Desarrollo frontend avanzado con librerías modernas",
     icon: "⚡"
   },
   {
+    name: "Git & GitHub",
+    category: "Programación y Desarrollo Web",
+    description: "Control de versiones, colaboración en código",
+    details: "Gestión de proyectos, workflows y colaboración en equipo",
+    icon: "🔄"
+  },
+  {
+    name: "Vibecoding con Cursor",
+    category: "Programación y Desarrollo Web",
+    description: "Desarrollo asistido por IA",
+    details: "Programación eficiente con herramientas de IA",
+    icon: "🚀"
+  },
+  {
+    name: "Loveable & Dev 0",
+    category: "Programación y Desarrollo Web",
+    description: "Plataformas de desarrollo no-code/low-code",
+    details: "Desarrollo rápido de aplicaciones web",
+    icon: "⚙️"
+  },
+  {
     name: "Figma",
-    category: "Diseño UI/UX",
-    description: "Prototipado, diseño de interfaces",
+    category: "Software",
+    description: "Prototipado, diseño de interfaces UI/UX",
+    details: "Diseño colaborativo, sistemas de diseño",
     icon: "🎯"
   },
   {
-    name: "Adobe After Effects",
-    category: "Motion Graphics",
-    description: "Animación, efectos visuales",
-    icon: "✨"
-  },
-  {
-    name: "Inteligencia Artificial",
-    category: "Herramientas IA",
-    description: "ChatGPT, Gemini, Adobe Firefly",
+    name: "ChatGPT",
+    category: "Inteligencias Artificiales",
+    description: "Asistente de IA para múltiples tareas",
+    details: "Generación de contenido, análisis y automatización",
     icon: "🤖"
   },
   {
-    name: "Git & GitHub",
-    category: "Control de Versiones",
-    description: "Colaboración, versionado de código",
-    icon: "🔄"
+    name: "Gemini",
+    category: "Inteligencias Artificiales", 
+    description: "IA de Google para análisis y generación",
+    details: "Procesamiento de datos y contenido multimodal",
+    icon: "💎"
+  },
+  {
+    name: "Adobe Firefly",
+    category: "Inteligencias Artificiales",
+    description: "IA generativa de Adobe para imágenes",
+    details: "Generación y edición de imágenes con IA",
+    icon: "🔥"
+  },
+  {
+    name: "Scrum",
+    category: "Metodologías",
+    description: "Gestión ágil de proyectos",
+    details: "Metodología para desarrollo colaborativo y eficiente",
+    icon: "📋"
+  },
+  {
+    name: "Trello",
+    category: "Software",
+    description: "Gestión de proyectos y organización",
+    details: "Planificación visual y seguimiento de tareas",
+    icon: "📊"
+  },
+  {
+    name: "Canva",
+    category: "Software",
+    description: "Diseño gráfico y presentaciones",
+    details: "Creación rápida de contenido visual",
+    icon: "🎪"
   }
 ];
 
@@ -69,7 +135,7 @@ const SkillsSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const itemsPerView = 3;
+  const itemsPerView = 2;
   const maxIndex = Math.max(0, skills.length - itemsPerView);
 
   useEffect(() => {
@@ -101,7 +167,7 @@ const SkillsSlider = () => {
   }
 
   return (
-    <section className="py-20 bg-secondary/20">
+    <section className="py-20 bg-secondary/20 fade-in-up">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="font-montserrat font-bold text-4xl md:text-5xl mb-6 text-foreground">
@@ -137,24 +203,32 @@ const SkillsSlider = () => {
               {skills.map((skill, index) => (
                 <Card 
                   key={`${skill.name}-${index}`}
-                  className="flex-shrink-0 w-[calc(33.333%-1rem)] bg-gradient-card border-border hover:shadow-elegant transition-all duration-300 hover:scale-105 group"
+                  className="flex-shrink-0 w-[calc(50%-1rem)] bg-gradient-card border-border hover:shadow-elegant transition-all duration-300 hover:scale-105 group min-h-[320px]"
                 >
-                  <CardContent className="p-6 text-center">
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                  <CardContent className="p-8 text-center h-full flex flex-col justify-between">
+                    <div className="text-6xl mb-6 group-hover:scale-110 transition-transform">
                       {skill.icon}
                     </div>
                     
-                    <h3 className="font-montserrat font-semibold text-lg mb-2 text-foreground group-hover:text-primary transition-colors">
-                      {skill.name}
-                    </h3>
-                    
-                    <span className="inline-block px-3 py-1 text-xs font-medium bg-orange/20 text-orange rounded-full mb-3">
-                      {skill.category}
-                    </span>
-                    
-                    <p className="font-roboto text-sm text-muted-foreground leading-relaxed">
-                      {skill.description}
-                    </p>
+                    <div className="flex-grow">
+                      <h3 className="font-montserrat font-bold text-xl mb-3 text-foreground group-hover:text-primary transition-colors">
+                        {skill.name}
+                      </h3>
+                      
+                      <span className="inline-block px-4 py-2 text-sm font-medium bg-muted/30 text-foreground rounded-full mb-4">
+                        {skill.category}
+                      </span>
+                      
+                      <p className="font-roboto text-sm text-muted-foreground leading-relaxed mb-3">
+                        {skill.description}
+                      </p>
+                      
+                      {skill.details && (
+                        <p className="font-roboto text-xs text-muted-foreground/80 leading-relaxed italic">
+                          {skill.details}
+                        </p>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
               ))}

@@ -8,46 +8,50 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Felipe's Portfolio Color Scheme */
-    --background: 220 13% 10%;
-    --foreground: 0 0% 95%;
+    /* AMOLED Minimalist Color Scheme */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 220 13% 12%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 220 13% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 195 100% 50%;
-    --primary-foreground: 220 13% 10%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 220 13% 15%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 0 0% 8%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 13% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 195 100% 50%;
-    --accent-foreground: 220 13% 10%;
+    --accent: 0 0% 100%;
+    --accent-foreground: 0 0% 0%;
 
-    --orange: 15 100% 50%;
-    --orange-foreground: 220 13% 10%;
+    --orange: 0 0% 70%;
+    --orange-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 20%;
-    --input: 220 13% 15%;
-    --ring: 195 100% 50%;
+    --border: 0 0% 15%;
+    --input: 0 0% 8%;
+    --ring: 0 0% 100%;
 
     --radius: 0.5rem;
 
     /* Custom gradients and effects */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(220 13% 8%));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(220 13% 14%));
-    --shadow-elegant: 0 10px 30px -10px hsl(195 100% 50% / 0.3);
-    --shadow-glow: 0 0 40px hsl(195 100% 50% / 0.2);
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 3%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 5%), hsl(0 0% 8%));
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 100% / 0.1);
+    --shadow-glow: 0 0 40px hsl(0 0% 100% / 0.1);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Particle effect */
+    --particle-color: 0 0% 100%;
+    --particle-opacity: 0.1;
 
     --sidebar-background: 0 0% 98%;
 
@@ -112,5 +116,90 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+
+  /* Scroll animations */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fade-in-up.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fade-in-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fade-in-left.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .fade-in-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fade-in-right.animate {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .scale-in {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .scale-in.animate {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Particles */
+  .particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: hsl(var(--particle-color));
+    opacity: var(--particle-opacity);
+    border-radius: 50%;
+    animation: float 8s infinite linear;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: var(--particle-opacity);
+    }
+    90% {
+      opacity: var(--particle-opacity);
+    }
+    100% {
+      transform: translateY(-10vh) rotate(360deg);
+      opacity: 0;
+    }
   }
 }
