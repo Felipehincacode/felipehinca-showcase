@@ -16,7 +16,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     reverb: Tone.Reverb | null;
     gain: Tone.Gain | null;
   }>({ synths: [], reverb: null, gain: null });
-
+  
   const texts = [
     "Felipe Hincapié Murillo,\nComunicador Audiovisual.",
     "Con la creatividad como materia prima,\nconstruyo contenido que impacta y conecta.",
@@ -30,34 +30,31 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     try {
       await Tone.start();
       
-      // 4 synths for 4 notes - configuración que funcionaba antes
-      const synths = [
+      // 3 synths para marimba + efectos espaciales
+      const synths = notes.map(() => 
         new Tone.Synth({ 
-          oscillator: { type: "sine" }, 
-          envelope: { attack: 0.01, decay: 0.3, sustain: 0.7, release: 1.5 } 
-        }),
-        new Tone.Synth({ 
-          oscillator: { type: "sine" }, 
-          envelope: { attack: 0.01, decay: 0.3, sustain: 0.7, release: 1.5 } 
-        }),
-        new Tone.Synth({ 
-          oscillator: { type: "sine" }, 
-          envelope: { attack: 0.01, decay: 0.3, sustain: 0.7, release: 1.5 } 
-        }),
-        new Tone.Synth({ 
-          oscillator: { type: "sine" }, 
-          envelope: { attack: 0.01, decay: 0.3, sustain: 0.7, release: 1.5 } 
+          oscillator: { 
+            type: "triangle"
+          }, 
+          envelope: { 
+            attack: 0.001, 
+            decay: 1.5, 
+            sustain: 0.1, 
+            release: 2.5 
+          } 
         })
-      ];
+      );
 
-      const gain = new Tone.Gain(0.3);
-      const reverb = new Tone.Reverb({ decay: 4, wet: 0.6 });
+      const gain = new Tone.Gain(0.4);
+      const reverb = new Tone.Reverb({ decay: 8, wet: 0.8 }); // Más reverb espacial
+      const delay = new Tone.PingPongDelay("8n", 0.2); // Delay para efecto espacial
       
       synths.forEach(synth => {
         synth.connect(gain);
       });
       
-      gain.connect(reverb);
+      gain.connect(delay);
+      delay.connect(reverb);
       reverb.toDestination();
       
       audioRef.current = { synths, reverb, gain };
@@ -120,34 +117,34 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     
     if (phase === 'texts') {
       const beatDuration = 3000; // 40 BPM - 3 segundos por texto
-      const noteDuration = 2.5; // Duración de cada nota (2.5 segundos)
+      const noteDuration = 2.5; // Duración de cada nota individual
+      const chordDuration = 3.5; // Duración del acorde final (más largo)
       
-      // Texto 1 ya está visible + Nota C3
+      // Texto 1 + Golpe 1: Solo C4 (tun)
       setTimeout(() => {
-        if (audioInitialized) playNoteWithFadeOut(0, noteDuration); // C3
+        if (audioInitialized) playNoteWithFadeOut(0, noteDuration); // C4
       }, 500);
 
-      // Texto 2 + Nota G3
+      // Texto 2 + Golpe 2: Solo E4 (tun)
       setTimeout(() => {
         setCurrentText(2);
-        if (audioInitialized) playNoteWithFadeOut(1, noteDuration); // G3
+        if (audioInitialized) playNoteWithFadeOut(1, noteDuration); // E4
       }, 500 + beatDuration);
 
-      // Texto 3 + Nota B4
+      // Texto 3 + Golpe 3: Solo G4 (tun)
       setTimeout(() => {
         setCurrentText(3);
-        if (audioInitialized) playNoteWithFadeOut(2, noteDuration); // B4
+        if (audioInitialized) playNoteWithFadeOut(2, noteDuration); // G4
       }, 500 + (beatDuration * 2));
 
-      // Texto 4 + Acorde final (todas las notas juntas)
+      // Texto 4 + Golpe 4: ACORDE COMPLETO (C4 + E4 + G4) - ¡ESPACIAL!
       setTimeout(() => {
         setCurrentText(4);
         if (audioInitialized) {
-          // Tocar todas las notas juntas para el acorde final
-          playNoteWithFadeOut(0, 2); // C3
-          playNoteWithFadeOut(1, 2); // G3
-          playNoteWithFadeOut(2, 2); // B4
-          playNoteWithFadeOut(3, 2); // E5
+          // Tocar las 3 notas juntas para el acorde final espacial
+          playNoteWithFadeOut(0, chordDuration); // C4
+          playNoteWithFadeOut(1, chordDuration); // E4
+          playNoteWithFadeOut(2, chordDuration); // G4
         }
       }, 500 + (beatDuration * 3));
 
@@ -164,9 +161,9 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   }, [phase, onComplete, audioInitialized]);
 
   if (phase === 'waiting') {
-    return (
+  return (
       <div className="fixed inset-0 bg-black z-50 flex items-center justify-center cursor-pointer" onClick={handleStartClick}>
-        <motion.div
+    <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -206,7 +203,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         animate={{ backgroundColor: "rgb(255, 255, 255)" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <motion.div
+          <motion.div
           initial={{ scale: 0.1 }}
           animate={{ scale: 100 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -250,4 +247,4 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   );
 };
 
-export default Preloader;
+export default Preloader; 
