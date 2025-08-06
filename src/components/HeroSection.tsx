@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Play } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { motion } from "framer-motion";
+
+const felipeProfile = "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -19,19 +22,66 @@ const HeroSection = () => {
         </div>
       </div>
       
-      <div className="container mx-auto px-4 text-center relative z-0">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="font-montserrat font-bold text-4xl md:text-6xl lg:text-7xl mb-6 text-foreground leading-tight">
-            Felipe Hincapié
+      <div className="container mx-auto px-4 relative z-0">
+        <div className="max-w-6xl mx-auto">
+          {/* Hero Content with Photo and Text */}
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16">
+            {/* Photo Section */}
+            <motion.div 
+              className="flex-shrink-0"
+              initial={{ opacity: 0, scale: 0.8, x: -50 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            >
+              <div className="relative">
+                <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden ring-4 ring-mint-green/30 shadow-2xl">
+                  <img
+                    src={felipeProfile}
+                    alt="Felipe Hincapié"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: 'center top' }}
+                  />
+                </div>
+                {/* Decorative elements */}
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-mint-green rounded-full animate-pulse"></div>
+                <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-mint-green/60 rounded-full animate-ping"></div>
+                <div className="absolute top-1/2 -left-4 w-3 h-3 bg-mint-green/40 rounded-full animate-bounce"></div>
+              </div>
+            </motion.div>
+
+            {/* Text Section */}
+            <motion.div 
+              className="text-center lg:text-left flex-1"
+              initial={{ opacity: 0, scale: 0.8, x: 50 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+            >
+              <motion.h1 
+                className="font-montserrat font-bold text-4xl md:text-6xl lg:text-7xl mb-6 text-foreground leading-tight"
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                Creatividad como materia prima.
             <br />
-            <span className="text-mint-green">{t('hero.title')}</span>
-          </h1>
-          
-          <p className="font-roboto text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl leading-relaxed">
-            {t('hero.subtitle')}. {t('hero.description')}.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <span className="text-mint-green">Experiencias como resultado.</span>
+              </motion.h1>
+              
+              <motion.p 
+                className="font-roboto text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl leading-relaxed"
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              >
+                Felipe Hincapié. Comunicador Audiovisual creando contenido que impacta, conecta y emociona.
+              </motion.p>
+              
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-12"
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+              >
             <Button 
               onClick={scrollToPortfolio}
               size="lg" 
@@ -49,11 +99,21 @@ const HeroSection = () => {
             >
               {t('nav.contact')}
             </Button>
+              </motion.div>
+            </motion.div>
           </div>
           
+          {/* Scroll indicator */}
+          <motion.div 
+            className="flex justify-center mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+          >
           <div className="animate-bounce">
-            <ArrowDown className="h-8 w-8 text-foreground mx-auto" />
+              <ArrowDown className="h-8 w-8 text-foreground" />
           </div>
+          </motion.div>
         </div>
       </div>
       

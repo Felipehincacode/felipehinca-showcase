@@ -350,3 +350,9 @@ a:focus-visible {
   outline-offset: 2px;
   border-radius: 8px;
 }
+
+/* Typewriter font */
+.font-typewriter {
+  font-family: 'Courier Prime', 'Courier New', monospace;
+  font-weight: 400;
+}

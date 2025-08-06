@@ -3,8 +3,6 @@ import { Menu, X, Globe } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion, AnimatePresence } from "framer-motion";
 
-const felipeProfile = "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png";
-
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -101,29 +99,7 @@ const Header = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo/Profile */}
-          <motion.div 
-            className="flex items-center space-x-3 cursor-pointer"
-            onClick={() => handleNavigation("hero")}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="relative">
-              <img
-                src={felipeProfile}
-                alt="Felipe Hincapié"
-                className="w-10 h-10 rounded-full object-cover ring-2 ring-mint-green"
-                style={{ objectPosition: 'center top' }}
-              />
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-mint-green rounded-full border-2 border-background"></div>
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="font-montserrat font-bold text-lg text-foreground">Felipe Hincapié</h1>
-              <p className="font-roboto text-xs text-mint-green">Comunicador Audiovisual</p>
-            </div>
-          </motion.div>
-
-          {/* Desktop Navigation */}
+          {/* Left side - Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {menuItems.map((item, index) => (
               <motion.button
@@ -150,7 +126,7 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Language Toggle */}
+          {/* Right side - Language Toggle */}
           <motion.button
             onClick={() => setLanguage(language === "es" ? "en" : "es")}
             className="hidden md:flex items-center space-x-2 text-muted-foreground hover:text-mint-green transition-colors duration-300"
