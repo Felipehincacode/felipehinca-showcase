@@ -15,16 +15,16 @@ const Index = () => {
   useScrollAnimation();
 
   const popVariants = {
-    hidden: { opacity: 0, scale: 0.8, y: 50 },
+    hidden: { opacity: 0, scale: 0.9, y: 30 },
     visible: { 
       opacity: 1, 
       scale: 1, 
       y: 0,
       transition: {
         type: "spring",
-        damping: 20,
-        stiffness: 300,
-        duration: 0.6
+        damping: 25,
+        stiffness: 400,
+        duration: 0.4 // Más rápido
       }
     }
   };
@@ -34,8 +34,8 @@ const Index = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
+        staggerChildren: 0.05, // Más rápido: 0.1s → 0.05s
+        delayChildren: 0.1 // Menos delay: 0.2s → 0.1s
       }
     }
   };

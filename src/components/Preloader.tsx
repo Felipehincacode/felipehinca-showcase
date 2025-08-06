@@ -10,6 +10,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   const [phase, setPhase] = useState<'waiting' | 'dropping' | 'expanding' | 'texts' | 'fading'>('waiting');
   const [currentText, setCurrentText] = useState(0);
   const [audioInitialized, setAudioInitialized] = useState(false);
+  const [pagePreloaded, setPagePreloaded] = useState(false);
   
   const audioRef = useRef<{
     synths: Tone.Synth[];
@@ -45,7 +46,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         })
       );
 
-      const gain = new Tone.Gain(0.4);
+      const gain = new Tone.Gain(1.0); // Subir volumen de 4 a 10 (0.4 a 1.0)
       const reverb = new Tone.Reverb({ decay: 8, wet: 0.8 }); // Más reverb espacial
       const delay = new Tone.PingPongDelay("8n", 0.2); // Delay para efecto espacial
       
@@ -91,11 +92,41 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     }
   };
 
+  const preloadPageAssets = async () => {
+    try {
+      // Precargar imágenes críticas
+      const imagePromises = [
+        "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png",
+        "/favicon.ico"
+      ].map(src => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = resolve; // Continue even if some images fail
+          img.src = src;
+        });
+      });
+
+      await Promise.all(imagePromises);
+      
+      // Simular carga de componentes React
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      setPagePreloaded(true);
+      console.log("Page assets preloaded");
+    } catch (error) {
+      console.log("Some assets failed to load, continuing anyway");
+      setPagePreloaded(true);
+    }
+  };
+
   const handleStartClick = async () => {
     // Inicializar audio cuando el usuario hace click
     if (!audioInitialized) {
       await setupAudio();
     }
+    // Iniciar precarga de la página
+    preloadPageAssets();
     setPhase('dropping');
   };
 
@@ -148,15 +179,23 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         }
       }, 500 + (beatDuration * 3));
 
-      // Fade out
+      // Fade out - esperar a que la página esté precargada
       setTimeout(() => {
         setPhase('fading');
+        
+        // Esperar a que la página esté lista antes de completar
+        const waitForPageLoad = () => {
+          if (pagePreloaded) {
+            setTimeout(() => {
+              onComplete();
+            }, 800); // Reducido de 1500 a 800 para transición más fluida
+          } else {
+            setTimeout(waitForPageLoad, 100); // Revisar cada 100ms
+          }
+        };
+        
+        waitForPageLoad();
       }, 500 + (beatDuration * 4));
-
-      // Complete - más rápido
-      setTimeout(() => {
-        onComplete();
-      }, 500 + (beatDuration * 4) + 1500);
     }
   }, [phase, onComplete, audioInitialized]);
 
@@ -218,7 +257,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       className="fixed inset-0 bg-white z-50 flex items-center justify-center"
       initial={{ opacity: 1 }}
       animate={{ opacity: phase === 'fading' ? 0 : 1 }}
-      transition={{ duration: phase === 'fading' ? 1.5 : 0, ease: "easeInOut" }}
+      transition={{ duration: phase === 'fading' ? 0.8 : 0, ease: "easeInOut" }} // Más rápido: 1.5s → 0.8s
     >
       <div className="text-center max-w-4xl px-8">
         <AnimatePresence mode="wait">
@@ -228,7 +267,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
+              transition={{ duration: 0.3, ease: "easeInOut" }} // Más rápido: 0.6s → 0.3s
               className="text-black font-montserrat"
             >
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
