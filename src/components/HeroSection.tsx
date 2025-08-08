@@ -39,6 +39,8 @@ const HeroSection = () => {
                     src={felipeProfile}
                     alt="Felipe Hincapié"
                     className="w-full h-full object-cover"
+                    loading="eager"
+                    decoding="async"
                     style={{ objectPosition: 'center top' }}
                   />
                 </div>
@@ -62,9 +64,9 @@ const HeroSection = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                Creatividad como materia prima.
-            <br />
-                <span className="text-mint-green">Experiencias como resultado.</span>
+                {t('hero.title')}
+                <br />
+                <span className="text-mint-green">{t('hero.subtitle')}</span>
               </motion.h1>
               
               <motion.p 
@@ -73,7 +75,7 @@ const HeroSection = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                Felipe Hincapié. Comunicador Audiovisual creando contenido que impacta, conecta y emociona.
+                {t('hero.description')}
               </motion.p>
               
               <motion.div 
