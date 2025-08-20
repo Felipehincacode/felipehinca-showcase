@@ -19,10 +19,10 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   }>({ synths: [], reverb: null, gain: null });
   
   const texts = [
-    "Con la creatividad como materia prima",
-    "construyo contenido que impacta\nconecta y emociona",
-    "Felipe Hincapié Murillo\ncomunicador audiovisual",
-    "Un creador de posibilidades"
+    "Felipe Hincapié Murillo,\nComunicador Audiovisual.",
+    "Con la creatividad como materia prima,\nconstruyo contenido que impacta y conecta.",
+    "Felipe Hincapié Murillo",
+    "un creador de posibilidades"
   ];
 
   const notes = ["C4", "E4", "G4"]; // Solo 3 notas para el acorde
@@ -49,17 +49,12 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       const gain = new Tone.Gain(1.0); // Subir volumen de 4 a 10 (0.4 a 1.0)
       const reverb = new Tone.Reverb({ decay: 8, wet: 0.8 }); // Más reverb espacial
       const delay = new Tone.PingPongDelay("8n", 0.2); // Delay para efecto espacial
-      const filter = new Tone.Filter(800, "lowpass"); // Filtro para suavizar
-      const chorus = new Tone.Chorus(4, 2.5, 0.5); // Chorus para efecto bloom
       
       synths.forEach(synth => {
         synth.connect(gain);
       });
       
-      // Cadena de efectos para bloom ambiental
-      gain.connect(filter);
-      filter.connect(chorus);
-      chorus.connect(delay);
+      gain.connect(delay);
       delay.connect(reverb);
       reverb.toDestination();
       
@@ -137,18 +132,18 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
   useEffect(() => {
     if (phase === 'dropping') {
-      // Después de la animación de gota (más tiempo para la nueva animación)
+      // Después de la animación de gota, expandir a blanco
       setTimeout(() => {
         setPhase('expanding');
-      }, 1200);
+      }, 1000);
     }
     
     if (phase === 'expanding') {
-      // Después de expandir (más tiempo para la nueva animación)
+      // Después de expandir, empezar los textos
       setTimeout(() => {
         setPhase('texts');
         setCurrentText(1);
-      }, 1000);
+      }, 800);
     }
     
     if (phase === 'texts') {
@@ -208,9 +203,9 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   return (
       <div className="fixed inset-0 bg-black z-50 flex items-center justify-center cursor-pointer" onClick={handleStartClick}>
     <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }} // Custom easing más fluido
+          transition={{ duration: 1, ease: "easeOut" }}
           className="text-center"
         >
           <h1 className="text-white text-lg md:text-2xl font-montserrat font-light mb-4">
@@ -230,13 +225,9 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     return (
       <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
         <motion.div
-          initial={{ y: -200, scale: 0.1, opacity: 0 }}
+          initial={{ y: -100, scale: 0.1, opacity: 0 }}
           animate={{ y: 0, scale: 1, opacity: 1 }}
-          transition={{ 
-            duration: 1.2, 
-            ease: [0.34, 1.56, 0.64, 1], // Bounce easing más natural
-            opacity: { duration: 0.3 }
-          }}
+          transition={{ duration: 1, ease: "easeOut" }}
           className="w-8 h-8 bg-white rounded-full"
         />
       </div>
@@ -249,17 +240,14 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         className="fixed inset-0 z-50 flex items-center justify-center"
         initial={{ backgroundColor: "rgb(0, 0, 0)" }}
         animate={{ backgroundColor: "rgb(255, 255, 255)" }}
-        transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }} // Easing más suave
+        transition={{ duration: 0.8, ease: "easeOut" }}
       >
           <motion.div
           initial={{ scale: 0.1 }}
           animate={{ scale: 100 }}
-            transition={{
-            duration: 1, 
-            ease: [0.23, 1, 0.32, 1] // Easing exponencial suave
-            }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-8 h-8 bg-white rounded-full"
-          />
+        />
       </motion.div>
     );
   }
@@ -276,10 +264,10 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           {currentText > 0 && currentText <= texts.length && (
             <motion.div
               key={currentText}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }} // Solo fade, sin movimiento
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }} // Más rápido: 0.6s → 0.3s
               className="text-black font-montserrat"
             >
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
