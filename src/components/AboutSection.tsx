@@ -2,7 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { GraduationCap, Camera, Award, Globe } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { motion } from "framer-motion";
-import felipeProfile from "@/assets/felipe-profile.jpg";
+
+const felipeProfile = "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png";
 
 const AboutSection = () => {
   const { t } = useLanguage();

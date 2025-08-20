@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as Tone from "tone";
-import felipeProfile from "@/assets/felipe-profile.jpg";
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -102,8 +101,8 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     try {
       // Precargar imágenes críticas
       const imagePromises = [
-        felipeProfile,
-        "/favicon.svg"
+        "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png",
+        "/favicon.ico"
       ].map(src => {
         return new Promise((resolve, reject) => {
           const img = new Image();
