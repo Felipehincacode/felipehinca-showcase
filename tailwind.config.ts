@@ -84,7 +84,11 @@ export default {
 			},
 			fontFamily: {
 				'roboto': ['Roboto', 'sans-serif'],
-				'montserrat': ['Montserrat', 'sans-serif']
+				'montserrat': ['Montserrat', 'sans-serif'],
+				'Courier_Prime': ['Courier Prime', 'monospace'],
+				'Inter': ['Inter', 'sans-serif'],
+				'Playfair_Display': ['Playfair Display', 'serif'],
+				'Space_Grotesk': ['Space Grotesk', 'sans-serif']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

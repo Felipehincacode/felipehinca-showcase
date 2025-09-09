@@ -18,6 +18,43 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     gain: Tone.Gain | null;
   }>({ synths: [], reverb: null, gain: null });
   
+  const timeoutRefs = useRef<Set<NodeJS.Timeout>>(new Set());
+  
+  // Detectar si es dispositivo móvil
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  // Helper function para manejar timeouts de forma segura
+  const safeSetTimeout = (callback: () => void, delay: number) => {
+    const timeoutId = setTimeout(() => {
+      timeoutRefs.current.delete(timeoutId);
+      callback();
+    }, delay);
+    timeoutRefs.current.add(timeoutId);
+    return timeoutId;
+  };
+  
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      // Limpiar todos los timeouts pendientes
+      timeoutRefs.current.forEach(timeoutId => {
+        clearTimeout(timeoutId);
+      });
+      timeoutRefs.current.clear();
+      
+      // Limpiar audio
+      if (audioRef.current.synths) {
+        audioRef.current.synths.forEach(synth => {
+          try {
+            synth.dispose();
+          } catch (error) {
+            console.error("Error disposing synth:", error);
+          }
+        });
+      }
+    };
+  }, []);
+  
   const texts = [
     "Felipe Hincapié Murillo,\nComunicador Audiovisual.",
     "Con la creatividad como materia prima,\nconstruyo contenido que impacta y conecta.",
@@ -26,9 +63,22 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   ];
 
   const notes = ["C4", "E4", "G4"]; // Solo 3 notas para el acorde
+  
+  const textFonts = [
+    "font-['Courier_Prime']", // Fuente 1: Monospace clásica
+    "font-['Inter']", // Fuente 2: Sans-serif limpia
+    "font-['Playfair_Display']", // Fuente 3: Serif elegante
+    "font-['Space_Grotesk']" // Fuente 4: Modern sans-serif
+  ];
 
   const setupAudio = async () => {
     try {
+      // Timeout de seguridad para audio en móviles
+      const audioTimeout = setTimeout(() => {
+        console.log("Audio initialization timeout, continuing without audio");
+        setAudioInitialized(true);
+      }, isMobile ? 2000 : 3000); // Menos tiempo en móviles
+
       await Tone.start();
       
       // 3 synths para marimba + efectos espaciales
@@ -59,6 +109,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       reverb.toDestination();
       
       audioRef.current = { synths, reverb, gain };
+      clearTimeout(audioTimeout);
       setAudioInitialized(true);
       console.log("Audio initialized successfully");
     } catch (error) {
@@ -94,16 +145,24 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
   const preloadPageAssets = async () => {
     try {
+      // Timeout de seguridad para precarga
+      const preloadTimeout = setTimeout(() => {
+        console.log("Preload timeout reached, continuing anyway");
+        setPagePreloaded(true);
+      }, isMobile ? 3000 : 4000); // Menos tiempo en móviles
+
       // Precargar imágenes críticas
       const imagePromises = [
         "/lovable-uploads/8535bbb6-e6a8-4ec6-b0d3-aeee6c93c655.png",
         "/favicon.ico"
       ].map(src => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           const img = new Image();
           img.onload = resolve;
           img.onerror = resolve; // Continue even if some images fail
           img.src = src;
+          // Timeout individual para cada imagen
+          setTimeout(resolve, 2000);
         });
       });
 
@@ -112,6 +171,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       // Simular carga de componentes React
       await new Promise(resolve => setTimeout(resolve, 500));
       
+      clearTimeout(preloadTimeout);
       setPagePreloaded(true);
       console.log("Page assets preloaded");
     } catch (error) {
@@ -121,10 +181,43 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   };
 
   const handleStartClick = async () => {
-    // Inicializar audio cuando el usuario hace click
+    console.log("Preloader started");
+    
+    // En móviles, intentar inicializar audio pero continuar sin él si falla
     if (!audioInitialized) {
-      await setupAudio();
+      if (isMobile) {
+        // En móviles, dar menos tiempo para el audio
+        const mobileAudioTimeout = setTimeout(() => {
+          console.log("Mobile audio timeout, continuing without audio");
+          setAudioInitialized(true);
+        }, 1500);
+        
+        try {
+          await setupAudio();
+          clearTimeout(mobileAudioTimeout);
+        } catch (error) {
+          console.log("Mobile audio failed, continuing without audio");
+          clearTimeout(mobileAudioTimeout);
+          setAudioInitialized(true);
+        }
+      } else {
+        // En desktop, dar más tiempo pero con timeout de seguridad
+        const desktopAudioTimeout = setTimeout(() => {
+          console.log("Desktop audio timeout, continuing without audio");
+          setAudioInitialized(true);
+        }, 4000);
+        
+        try {
+          await setupAudio();
+          clearTimeout(desktopAudioTimeout);
+        } catch (error) {
+          console.log("Desktop audio failed, continuing without audio");
+          clearTimeout(desktopAudioTimeout);
+          setAudioInitialized(true);
+        }
+      }
     }
+    
     // Iniciar precarga de la página
     preloadPageAssets();
     setPhase('dropping');
@@ -133,14 +226,14 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   useEffect(() => {
     if (phase === 'dropping') {
       // Después de la animación de gota, expandir a blanco
-      setTimeout(() => {
+      safeSetTimeout(() => {
         setPhase('expanding');
       }, 1000);
     }
     
     if (phase === 'expanding') {
       // Después de expandir, empezar los textos
-      setTimeout(() => {
+      safeSetTimeout(() => {
         setPhase('texts');
         setCurrentText(1);
       }, 800);
@@ -152,24 +245,24 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       const chordDuration = 3.5; // Duración del acorde final (más largo)
       
       // Texto 1 + Golpe 1: Solo C4 (tun)
-      setTimeout(() => {
+      safeSetTimeout(() => {
         if (audioInitialized) playNoteWithFadeOut(0, noteDuration); // C4
       }, 500);
 
       // Texto 2 + Golpe 2: Solo E4 (tun)
-      setTimeout(() => {
+      safeSetTimeout(() => {
         setCurrentText(2);
         if (audioInitialized) playNoteWithFadeOut(1, noteDuration); // E4
       }, 500 + beatDuration);
 
       // Texto 3 + Golpe 3: Solo G4 (tun)
-      setTimeout(() => {
+      safeSetTimeout(() => {
         setCurrentText(3);
         if (audioInitialized) playNoteWithFadeOut(2, noteDuration); // G4
       }, 500 + (beatDuration * 2));
 
       // Texto 4 + Golpe 4: ACORDE COMPLETO (C4 + E4 + G4) - ¡ESPACIAL!
-      setTimeout(() => {
+      safeSetTimeout(() => {
         setCurrentText(4);
         if (audioInitialized) {
           // Tocar las 3 notas juntas para el acorde final espacial
@@ -180,24 +273,31 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       }, 500 + (beatDuration * 3));
 
       // Fade out - esperar a que la página esté precargada
-      setTimeout(() => {
+      safeSetTimeout(() => {
         setPhase('fading');
+        
+        // Timeout de seguridad para evitar bucles infinitos
+        const safetyTimeout = safeSetTimeout(() => {
+          console.log("Safety timeout reached, completing preloader");
+          onComplete();
+        }, isMobile ? 3000 : 5000); // Menos tiempo en móviles
         
         // Esperar a que la página esté lista antes de completar
         const waitForPageLoad = () => {
           if (pagePreloaded) {
-            setTimeout(() => {
+            clearTimeout(safetyTimeout);
+            safeSetTimeout(() => {
               onComplete();
             }, 800); // Reducido de 1500 a 800 para transición más fluida
           } else {
-            setTimeout(waitForPageLoad, 100); // Revisar cada 100ms
+            safeSetTimeout(waitForPageLoad, 100); // Revisar cada 100ms
           }
         };
         
         waitForPageLoad();
       }, 500 + (beatDuration * 4));
     }
-  }, [phase, onComplete, audioInitialized]);
+  }, [phase, audioInitialized, pagePreloaded]);
 
   if (phase === 'waiting') {
   return (
@@ -268,7 +368,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, ease: "easeInOut" }} // Más rápido: 0.6s → 0.3s
-              className="text-black font-montserrat"
+              className={`text-black ${textFonts[currentText - 1]}`}
             >
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
                 {texts[currentText - 1].split('\n').map((line, index) => (
