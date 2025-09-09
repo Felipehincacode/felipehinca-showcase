@@ -1,6 +1,14 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as Tone from "tone";
+
+// Declarar VANTA como global
+declare global {
+  interface Window {
+    VANTA: any;
+  }
+}
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -19,6 +27,8 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   }>({ synths: [], reverb: null, gain: null });
   
   const timeoutRefs = useRef<Set<NodeJS.Timeout>>(new Set());
+  const vantaRef = useRef<any>(null);
+  const vantaContainerRef = useRef<HTMLDivElement>(null);
   
   // Detectar si es dispositivo móvil
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -33,6 +43,27 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     return timeoutId;
   };
   
+  // Inicializar Vanta Halo
+  const initVantaHalo = () => {
+    if (window.VANTA && vantaContainerRef.current && !vantaRef.current) {
+      try {
+        vantaRef.current = window.VANTA.HALO({
+          el: vantaContainerRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          baseColor: 0xe61b1b,
+          backgroundColor: 0x0
+        });
+        console.log("Vanta Halo initialized");
+      } catch (error) {
+        console.error("Error initializing Vanta Halo:", error);
+      }
+    }
+  };
+
   // Cleanup effect
   useEffect(() => {
     return () => {
@@ -52,7 +83,26 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           }
         });
       }
+      
+      // Limpiar Vanta
+      if (vantaRef.current) {
+        try {
+          vantaRef.current.destroy();
+          vantaRef.current = null;
+        } catch (error) {
+          console.error("Error destroying Vanta:", error);
+        }
+      }
     };
+  }, []);
+  
+  // Inicializar Vanta cuando el componente se monte
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      initVantaHalo();
+    }, 100); // Pequeño delay para asegurar que el DOM esté listo
+    
+    return () => clearTimeout(timer);
   }, []);
   
   const texts = [
@@ -301,12 +351,17 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
   if (phase === 'waiting') {
   return (
-      <div className="fixed inset-0 bg-black z-50 flex items-center justify-center cursor-pointer" onClick={handleStartClick}>
-    <motion.div
+      <div className="fixed inset-0 z-50 flex items-center justify-center cursor-pointer" onClick={handleStartClick}>
+        {/* Contenedor para Vanta Halo */}
+        <div 
+          ref={vantaContainerRef}
+          className="absolute inset-0"
+        />
+        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="text-center"
+          className="text-center relative z-10"
         >
           <h1 className="text-white text-lg md:text-2xl font-montserrat font-light mb-4">
             Clickéame para empezar la experiencia
